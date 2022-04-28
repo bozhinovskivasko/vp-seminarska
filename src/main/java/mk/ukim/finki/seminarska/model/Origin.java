@@ -1,11 +1,9 @@
 package mk.ukim.finki.seminarska.model;
 
 import lombok.Data;
+import mk.ukim.finki.seminarska.model.enumerations.Continent;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -17,12 +15,13 @@ public class Origin {
 
     private String country;
 
-    private String continent;
+    @Enumerated(value = EnumType.STRING)
+    private Continent continent;
 
     public Origin() {
     }
 
-    public Origin(String country, String continent) {
+    public Origin(String country, Continent continent) {
         this.country = country;
         this.continent = continent;
     }

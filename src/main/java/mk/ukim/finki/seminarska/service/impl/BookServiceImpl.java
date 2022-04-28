@@ -2,13 +2,15 @@ package mk.ukim.finki.seminarska.service.impl;
 
 import mk.ukim.finki.seminarska.model.Author;
 import mk.ukim.finki.seminarska.model.Book;
+import mk.ukim.finki.seminarska.model.Details;
 import mk.ukim.finki.seminarska.model.User;
-import mk.ukim.finki.seminarska.model.enumerations.Genre;
 import mk.ukim.finki.seminarska.model.exception.AuthorNotFoundException;
 import mk.ukim.finki.seminarska.model.exception.BookNotFoundException;
+import mk.ukim.finki.seminarska.model.exception.DetailsNotFoundException;
 import mk.ukim.finki.seminarska.model.exception.UserNotFoundException;
 import mk.ukim.finki.seminarska.repository.AuthorRepository;
 import mk.ukim.finki.seminarska.repository.BookRepository;
+import mk.ukim.finki.seminarska.repository.DetailsRepository;
 import mk.ukim.finki.seminarska.repository.UserRepository;
 import mk.ukim.finki.seminarska.service.BookService;
 import org.springframework.stereotype.Service;
@@ -22,13 +24,17 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final UserRepository userRepository;
+    private final DetailsRepository detailsRepository;
 
     public BookServiceImpl(BookRepository bookRepository,
                            AuthorRepository authorRepository,
-                           UserRepository userRepository) {
+                           UserRepository userRepository,
+                           DetailsRepository detailsRepository) {
+
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.userRepository = userRepository;
+        this.detailsRepository = detailsRepository;
     }
 
     @Override
@@ -42,12 +48,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<Book> save(String title, Long authorId, Genre genre, Integer copies) {
+    public Optional<Book> save(String title, Long authorId, Long detailsId, Integer copies) {
 
         Author author = this.authorRepository.findById(authorId)
                 .orElseThrow(() -> new AuthorNotFoundException(authorId));
 
-        Book book = new Book(title, author, genre, copies);
+        Details details = this.detailsRepository.findById(detailsId)
+                .orElseThrow(() -> new DetailsNotFoundException(detailsId));
+
+        Book book = new Book(title, author, details, copies);
 
         book.getAuthor().getBooks().add(book);
 
@@ -55,7 +64,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<Book> edit(Long id, String title, Long authorId, Genre genre, Integer copies) {
+    public Optional<Book> edit(Long id, String title, Long authorId, Long detailsId, Integer copies) {
 
         Book book = this.bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
@@ -63,8 +72,11 @@ public class BookServiceImpl implements BookService {
         Author author = this.authorRepository.findById(authorId)
                 .orElseThrow(() -> new AuthorNotFoundException(authorId));
 
+        Details details = this.detailsRepository.findById(detailsId)
+                .orElseThrow(() -> new DetailsNotFoundException(detailsId));
+
         book.setTitle(title);
-        book.setGenre(genre);
+        book.setDetails(details);
         book.setCopies(copies);
 
         if (!book.getAuthor().getId().equals(authorId)) {

@@ -1,6 +1,7 @@
 package mk.ukim.finki.seminarska.service.impl;
 
 import mk.ukim.finki.seminarska.model.Origin;
+import mk.ukim.finki.seminarska.model.enumerations.Continent;
 import mk.ukim.finki.seminarska.model.exception.OriginNotFoundException;
 import mk.ukim.finki.seminarska.repository.OriginRepository;
 import mk.ukim.finki.seminarska.service.OriginService;
@@ -29,13 +30,13 @@ public class OriginServiceImpl implements OriginService {
     }
 
     @Override
-    public Optional<Origin> save(String country, String continent) {
+    public Optional<Origin> save(String country, Continent continent) {
         Origin origin = new Origin(country, continent);
         return Optional.of(this.originRepository.save(origin));
     }
 
     @Override
-    public Optional<Origin> edit(Long id, String country, String continent) {
+    public Optional<Origin> edit(Long id, String country, Continent continent) {
         Origin origin = this.originRepository.findById(id)
                 .orElseThrow(() -> new OriginNotFoundException(id));
 

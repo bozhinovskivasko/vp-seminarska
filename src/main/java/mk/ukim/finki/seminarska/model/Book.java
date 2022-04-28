@@ -1,7 +1,6 @@
 package mk.ukim.finki.seminarska.model;
 
 import lombok.Data;
-import mk.ukim.finki.seminarska.model.enumerations.Genre;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,8 +19,8 @@ public class Book {
     @ManyToOne
     private Author author;
 
-    @Enumerated(value = EnumType.STRING)
-    private Genre genre;
+    @ManyToOne
+    Details details;
 
     private Integer copies;
 
@@ -36,11 +35,16 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, Author author, Genre genre, Integer copies) {
+    public Book(String title, Author author, Details details, Integer copies) {
         this.title = title;
         this.author = author;
-        this.genre = genre;
+        this.details = details;
         this.copies = copies;
         this.users = new ArrayList<>();
+    }
+
+    @Override
+    public String toString() {
+        return "Book{}";
     }
 }

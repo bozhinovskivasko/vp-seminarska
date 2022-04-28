@@ -18,6 +18,8 @@ public class Author {
 
     private String surname;
 
+    private String fullName;
+
     @ManyToOne
     private Origin origin;
 
@@ -32,5 +34,6 @@ public class Author {
         this.surname = surname;
         this.origin = origin;
         this.books = new ArrayList<>();
+        this.fullName = name + " " + surname;
     }
 }
