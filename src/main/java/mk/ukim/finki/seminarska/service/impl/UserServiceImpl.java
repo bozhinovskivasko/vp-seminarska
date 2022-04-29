@@ -2,6 +2,8 @@ package mk.ukim.finki.seminarska.service.impl;
 
 import mk.ukim.finki.seminarska.model.User;
 import mk.ukim.finki.seminarska.model.enumerations.Role;
+import mk.ukim.finki.seminarska.model.exception.InvalidArgumentsException;
+import mk.ukim.finki.seminarska.model.exception.InvalidUserCredentialsException;
 import mk.ukim.finki.seminarska.model.exception.PasswordDoNotMatchException;
 import mk.ukim.finki.seminarska.model.exception.UsernameAlreadyExistsException;
 import mk.ukim.finki.seminarska.repository.UserRepository;
@@ -41,5 +43,13 @@ public class UserServiceImpl implements UserService {
 
         User user = new User(name, surname, age, encryptedPassword, password, role);
         return Optional.of(this.userRepository.save(user));
+    }
+
+    @Override
+    public User login(String username, String password) {
+        if (username==null || username.isEmpty() || password==null || password.isEmpty()) {
+            throw new InvalidArgumentsException();
+        }
+        return userRepository.findByUsernameAndPassword(username, password).orElseThrow(InvalidUserCredentialsException::new);
     }
 }

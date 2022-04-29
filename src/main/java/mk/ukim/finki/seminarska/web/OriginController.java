@@ -29,7 +29,9 @@ public class OriginController {
         List<Origin> origins = this.originService.findAll();
 
         model.addAttribute("origins", origins);
-        return "form-origin.html";
+        model.addAttribute("bodyContent", "form-origin.html");
+
+        return "master-template.html";
     }
 
     @PostMapping("/add-origin")
@@ -40,7 +42,8 @@ public class OriginController {
 
         List<Origin> origins = this.originService.findAll();
         model.addAttribute("origins", origins);
+        model.addAttribute("bodyContent", "form-author.html");
 
-        return "form-author.html";
+        return "master-template.html";
     }
 }

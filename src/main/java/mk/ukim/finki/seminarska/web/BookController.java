@@ -30,8 +30,11 @@ public class BookController {
     @GetMapping
     public String showBooks(Model model) {
         List<Book> books = this.bookService.findALl();
+
         model.addAttribute("books", books);
-        return "books.html";
+        model.addAttribute("bodyContent", "books.html");
+
+        return "master-template.html";
     }
 
     @GetMapping("/add")
@@ -42,7 +45,9 @@ public class BookController {
 
         model.addAttribute("authors", authors);
         model.addAttribute("details", details);
-        return "form-book.html";
+        model.addAttribute("bodyContent", "form-book.html");
+
+        return "master-template.html";
     }
 
     @GetMapping("/edit/{id}")
@@ -55,8 +60,9 @@ public class BookController {
             model.addAttribute("book", book);
             model.addAttribute("authors", authors);
             model.addAttribute("details", details);
+            model.addAttribute("bodyContent", "form-book.html");
 
-            return "form-book.html";
+            return "master-template.html";
         }
 
         return "redirect:/books";

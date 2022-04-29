@@ -29,8 +29,11 @@ public class AuthorController {
     @GetMapping
     public String showAuthors(Model model) {
         List<Author> authors = this.authorService.findAll();
+
         model.addAttribute("authors", authors);
-        return "authors.html";
+        model.addAttribute("bodyContent", "authors.html");
+
+        return "master-template.html";
     }
 
     @GetMapping("/{id}")
@@ -39,16 +42,20 @@ public class AuthorController {
                 .orElseThrow(() -> new AuthorNotFoundException(id));
 
         model.addAttribute("author", author);
+        model.addAttribute("bodyContent", "author-works.html");
 
-        return "author-works.html";
+        return "master-template.html";
     }
 
     @GetMapping("/add")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addAuthor(Model model) {
         List<Origin> origins = this.originService.findAll();
+
         model.addAttribute("origins", origins);
-        return "form-author.html";
+        model.addAttribute("bodyContent", "form-author.html");
+
+        return "master-template.html";
     }
 
     @GetMapping("/edit/{id}")
@@ -59,8 +66,9 @@ public class AuthorController {
 
             model.addAttribute("author", author);
             model.addAttribute("origins", origins);
+            model.addAttribute("bodyContent", "form-author.html");
 
-            return "form-author.html";
+            return "master-template.html";
         }
 
         return "redirect:/authors";
