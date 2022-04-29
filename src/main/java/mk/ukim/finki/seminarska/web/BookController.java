@@ -47,19 +47,19 @@ public class BookController {
 
     @GetMapping("/edit/{id}")
     public String editProductPage(@PathVariable Long id, Model model) {
-        List<Author> authors = this.authorService.findAll();
-        List<Details> details = this.detailsService.findAll();
-        Book book = this.bookService.findById(id).get();
+        if (this.bookService.findById(id).isPresent()) {
+            Book book = this.bookService.findById(id).get();
+            List<Author> authors = this.authorService.findAll();
+            List<Details> details = this.detailsService.findAll();
 
-        Author author = book.getAuthor();
-        Details detail = book.getDetails();
+            model.addAttribute("book", book);
+            model.addAttribute("authors", authors);
+            model.addAttribute("details", details);
 
-        model.addAttribute("book", book);
-        model.addAttribute("authors", authors);
-        model.addAttribute("details", details);
-        model.addAttribute("author", author);
-        model.addAttribute("detail", detail);
-        return "form-book.html";
+            return "form-book.html";
+        }
+
+        return "redirect:/books";
     }
 
     @PostMapping("/add-book")
