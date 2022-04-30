@@ -56,6 +56,7 @@ public class AuthorServiceImpl implements AuthorService {
         author.setName(name);
         author.setSurname(surname);
         author.setOrigin(origin);
+        author.setFullName(name + " " + surname);
 
 
         return Optional.of(this.authorRepository.save(author));
