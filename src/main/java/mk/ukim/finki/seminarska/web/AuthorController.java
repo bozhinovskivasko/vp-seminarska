@@ -1,8 +1,6 @@
 package mk.ukim.finki.seminarska.web;
 
 import mk.ukim.finki.seminarska.model.Author;
-import mk.ukim.finki.seminarska.model.Book;
-import mk.ukim.finki.seminarska.model.Details;
 import mk.ukim.finki.seminarska.model.Origin;
 import mk.ukim.finki.seminarska.model.exception.AuthorNotFoundException;
 import mk.ukim.finki.seminarska.service.AuthorService;

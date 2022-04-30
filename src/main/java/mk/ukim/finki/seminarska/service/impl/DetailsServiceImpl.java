@@ -24,11 +24,6 @@ public class DetailsServiceImpl implements DetailsService {
     }
 
     @Override
-    public Optional<Details> findById(Long id) {
-        return this.detailsRepository.findById(id);
-    }
-
-    @Override
     public Optional<Details> save(MainGenre mainGenre, String description) {
         Details details = new Details(mainGenre, description);
         return Optional.of(this.detailsRepository.save(details));

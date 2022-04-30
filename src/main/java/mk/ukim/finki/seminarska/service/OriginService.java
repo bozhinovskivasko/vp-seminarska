@@ -10,11 +10,7 @@ public interface OriginService {
 
     List<Origin> findAll();
 
-    Optional<Origin> findById(Long id);
-
     Optional<Origin> save(String country, Continent continent);
 
     Optional<Origin> edit(Long id, String country, Continent continent);
-
-    void deleteById(Long id);
 }

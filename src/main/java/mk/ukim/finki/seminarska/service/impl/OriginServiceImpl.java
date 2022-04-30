@@ -25,11 +25,6 @@ public class OriginServiceImpl implements OriginService {
     }
 
     @Override
-    public Optional<Origin> findById(Long id) {
-        return this.originRepository.findById(id);
-    }
-
-    @Override
     public Optional<Origin> save(String country, Continent continent) {
         Origin origin = new Origin(country, continent);
         return Optional.of(this.originRepository.save(origin));
@@ -46,8 +41,4 @@ public class OriginServiceImpl implements OriginService {
         return Optional.of(origin);
     }
 
-    @Override
-    public void deleteById(Long id) {
-        this.originRepository.deleteById(id);
-    }
 }

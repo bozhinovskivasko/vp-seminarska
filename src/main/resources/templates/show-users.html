@@ -1,0 +1,37 @@
+<div class="container" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <div class="text-center"><h3 th:text="${book.author.fullName}"></h3></div>
+    <div class="text-center"><h3 th:text="${book.title}"></h3></div>
+    <br>
+    <div>
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Age</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${book.users}">
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.surname}"></td>
+                        <td th:text="${user.age}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <div class="text-center">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <a type="button" class="btn btn-secondary" href="/authors">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

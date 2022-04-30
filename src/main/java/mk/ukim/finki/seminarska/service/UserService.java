@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
 
-    User register(String username, String password, String repeatPassword, String name, String surname, Integer age, Role role);
+    void register(String username, String password, String repeatPassword, String name, String surname, Integer age, Role role);
 
     User login(String username, String password);
 

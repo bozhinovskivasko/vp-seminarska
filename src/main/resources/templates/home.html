@@ -1,4 +1,39 @@
 <div class="container" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <h1 class="my-5" style="color: #007bff; text-align:center;">Hello and welcome to my application!</h1>
-    <h1 class="display-1" style="color: #007bff; text-align:center;">Library</h1>
+
+    <th:block th:if="${#request.getRemoteUser() != null}">
+        <div class="row my-5">
+            <div class="col my-5">
+                <h3>My name is Vasko Bozinovski. I study computer science at <a href="https://www.finki.ukim.mk/en">FCSE.</a>
+                    This project is made for the subject web programming. I hope you like it!</h3>
+                <a class="btn btn-info btn-lg my-3 text-white" href="/books">See available books</a>
+            </div>
+            <div class="col">
+                <img class="rounded float-left"
+                     src="https://cdn.pixabay.com/photo/2018/08/16/15/26/book-3610618_960_720.jpg"
+                     style="width: 650px;">
+                <small class="my-3">This picture is downloaded from <a href="https://pixabay.com/">Pixabay</a>. It
+                    belongs to the creator <a href="https://pixabay.com/users/perfecto_capucine-9573466/">Perfecto_Capucine.</a></small>
+            </div>
+        </div>
+    </th:block>
+
+    <th:block th:if="${#request.getRemoteUser() == null}">
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <h1 class="my-5" style="color: #007bff;">Hello, welcome to my application!</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <h2 class="my-5" style="color: #007bff;">If you want to continue, you must first
+                    login, I hope you like it!</h2>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col d-flex justify-content-center">
+                <a class="btn btn-danger btn-lg" href="/login">Login</a>
+            </div>
+        </div>
+    </th:block>
+
 </div>

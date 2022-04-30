@@ -22,6 +22,12 @@
                         <td>
                             <div class="col">
                                 <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <a th:href="@{'/books/show-users/{id}' (id=${book.getId()})}"
+                                       class="btn btn-sm btn-primary my-1">
+                                        <i class="fa fa-trash">Show users</i>
+                                    </a>
+                                </th:block>
+                                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                     <a th:href="@{'/books/edit/{id}' (id=${book.getId()})}"
                                        class="btn btn-sm btn-warning">
                                         <i class="fa fa-trash">Edit</i>

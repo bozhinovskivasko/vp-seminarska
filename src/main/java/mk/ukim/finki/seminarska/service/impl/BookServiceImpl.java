@@ -89,7 +89,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<Book> rentABook(Long id, String username) {
+    public void rentABook(Long id, String username) {
         Book book = this.bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
 
@@ -102,11 +102,11 @@ public class BookServiceImpl implements BookService {
         user.getBooks().add(book);
         this.userRepository.save(user);
 
-        return Optional.of(this.bookRepository.save(book));
+        this.bookRepository.save(book);
     }
 
     @Override
-    public Optional<Book> returnABook(Long id, String username) {
+    public void returnABook(Long id, String username) {
         Book book = this.bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
 
@@ -118,7 +118,7 @@ public class BookServiceImpl implements BookService {
 
         this.userRepository.save(user);
 
-        return Optional.of(this.bookRepository.save(book));
+        this.bookRepository.save(book);
     }
 
     @Override

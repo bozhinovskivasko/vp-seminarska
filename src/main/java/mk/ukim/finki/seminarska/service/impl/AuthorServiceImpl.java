@@ -60,9 +60,4 @@ public class AuthorServiceImpl implements AuthorService {
 
         return Optional.of(this.authorRepository.save(author));
     }
-
-    @Override
-    public void deleteById(Long id) {
-        this.authorRepository.deleteById(id);
-    }
 }

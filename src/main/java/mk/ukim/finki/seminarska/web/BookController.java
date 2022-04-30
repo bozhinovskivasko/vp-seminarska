@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -107,7 +106,9 @@ public class BookController {
                 .orElseThrow(() -> new BookNotFoundException(id));
 
         model.addAttribute("book", book);
-        return "";
+        model.addAttribute("bodyContent", "show-users.html");
+
+        return "master-template.html";
     }
 
     @GetMapping("/rent/{id}")

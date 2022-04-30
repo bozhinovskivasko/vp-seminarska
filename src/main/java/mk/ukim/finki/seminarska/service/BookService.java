@@ -15,9 +15,9 @@ public interface BookService {
 
     Optional<Book> edit(Long id, String title, Long authorId, Long detailsId, Integer copies);
 
-    Optional<Book> rentABook(Long id, String username);
+    void rentABook(Long id, String username);
 
-    Optional<Book> returnABook(Long id, String username);
+    void returnABook(Long id, String username);
 
     void deleteById(Long id);
 }

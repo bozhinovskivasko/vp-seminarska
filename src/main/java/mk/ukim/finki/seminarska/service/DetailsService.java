@@ -10,7 +10,5 @@ public interface DetailsService {
 
     List<Details> findAll();
 
-    Optional<Details> findById(Long id);
-
     Optional<Details> save(MainGenre mainGenre, String description);
 }
