@@ -7,12 +7,15 @@ import mk.ukim.finki.seminarska.model.exception.BookNotFoundException;
 import mk.ukim.finki.seminarska.service.AuthorService;
 import mk.ukim.finki.seminarska.service.BookService;
 import mk.ukim.finki.seminarska.service.DetailsService;
+import mk.ukim.finki.seminarska.service.EmailSenderService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -22,11 +25,14 @@ public class BookController {
     private final BookService bookService;
     private final AuthorService authorService;
     private final DetailsService detailsService;
+    private final EmailSenderService emailSenderService;
 
-    public BookController(BookService bookService, AuthorService authorService, DetailsService detailsService) {
+    public BookController(BookService bookService, AuthorService authorService,
+                          DetailsService detailsService, EmailSenderService emailSenderService) {
         this.bookService = bookService;
         this.authorService = authorService;
         this.detailsService = detailsService;
+        this.emailSenderService = emailSenderService;
     }
 
     @GetMapping
@@ -105,16 +111,35 @@ public class BookController {
     }
 
     @GetMapping("/rent/{id}")
-    public String rentABook(@PathVariable Long id,
-                            HttpServletRequest request) {
-        this.bookService.rentABook(id, request.getRemoteUser());
+    public String rentABook(@PathVariable Long id, HttpServletRequest request) {
+
+        String username = request.getRemoteUser();
+        this.bookService.rentABook(id, username);
+
+        if (this.bookService.findById(id).isPresent()) {
+            Book book = this.bookService.findById(id).get();
+            LocalDate date = LocalDate.now();
+            String body = String.format("You have rented '%s' book by '%s' at ", book.getTitle(), book.getAuthor().getFullName());
+            body += date;
+            this.emailSenderService.sendEmail(username, body, "Alert about rented book!");
+        }
 
         return "redirect:/books";
     }
 
     @GetMapping("/return-book/{id}")
     public String returnABook(@PathVariable Long id, HttpServletRequest request) {
-        this.bookService.returnABook(id, request.getRemoteUser());
+
+        String username = request.getRemoteUser();
+        this.bookService.returnABook(id, username);
+
+        if (this.bookService.findById(id).isPresent()) {
+            Book book = this.bookService.findById(id).get();
+            LocalDate date = LocalDate.now();
+            String body = String.format("You have returned '%s' book by '%s' at ", book.getTitle(), book.getAuthor().getFullName());
+            body += date;
+            this.emailSenderService.sendEmail(username, body, "Alert about returned book!");
+        }
 
         return "redirect:/user";
     }
