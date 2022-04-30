@@ -23,22 +23,32 @@
                         <td class="text-right">
                             <div class="row">
                                 <div class="col">
-                                    <form th:action="@{'/books/delete/{id}' (id=${book.getId()})}"
-                                          th:method="DELETE">
-                                        <button type="submit"
-                                                class="btn btn-sm btn-danger delete-product">
-                                            <i class="fa fa-trash">Delete</i>
-                                        </button>
-                                    </form>
+                                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <form th:action="@{'/books/delete/{id}' (id=${book.getId()})}"
+                                              th:method="DELETE">
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-danger delete-product">
+                                                <i class="fa fa-trash">Delete</i>
+                                            </button>
+                                        </form>
+                                    </th:block>
                                 </div>
                                 <div class="col">
-                                    <a th:href="@{'/books/edit/{id}' (id=${book.getId()})}"
-                                       class="btn btn-sm btn-warning">
-                                        <i class="fa fa-trash">Edit</i>
+                                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <a th:href="@{'/books/edit/{id}' (id=${book.getId()})}"
+                                           class="btn btn-sm btn-warning">
+                                            <i class="fa fa-trash">Edit</i>
+                                        </a>
+                                    </th:block>
+                                </div>
+                                <div class="col">
+                                    <a th:if="${book.copies != 0}"
+                                       th:href="@{'/books/rent/{id}' (id=${book.getId()})}"
+                                       class="btn btn-sm btn-info">
+                                        <i class="fa fa-trash">Rent</i>
                                     </a>
-                                </div>
-                                <div class="col">
-                                    <a class="btn btn-sm btn-info">
+                                    <a th:if="${book.copies == 0}"
+                                       class="btn btn-sm btn-info disabled">
                                         <i class="fa fa-trash">Rent</i>
                                     </a>
                                 </div>
@@ -53,9 +63,11 @@
         <div class="text-center">
             <div class="row">
                 <div class="col-sm-12 col-md-12">
-                    <a href="/books/add" class="btn btn-dark add-product-btn">
-                        Add new book
-                    </a>
+                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a href="/books/add" class="btn btn-dark add-product-btn">
+                            Add new book
+                        </a>
+                    </th:block>
                 </div>
             </div>
         </div>

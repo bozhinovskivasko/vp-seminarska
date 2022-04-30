@@ -8,6 +8,8 @@ import mk.ukim.finki.seminarska.model.exception.PasswordDoNotMatchException;
 import mk.ukim.finki.seminarska.model.exception.UsernameAlreadyExistsException;
 import mk.ukim.finki.seminarska.repository.UserRepository;
 import mk.ukim.finki.seminarska.service.UserService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +27,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return this.userRepository.findByUsername(username);
-    }
+    public User register(String username, String password, String repeatPassword, String name, String surname, Integer age, Role role) {
 
-    @Override
-    public Optional<User> register(String name, String surname, Integer age, String username,
-                                   String password, String repeatPassword, Role role) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty())
+            throw new InvalidArgumentsException();
 
         if (!password.equals(repeatPassword))
             throw new PasswordDoNotMatchException();
@@ -39,17 +38,27 @@ public class UserServiceImpl implements UserService {
         if (this.userRepository.findByUsername(username).isPresent())
             throw new UsernameAlreadyExistsException(username);
 
-        String encryptedPassword = this.passwordEncoder.encode(password);
-
-        User user = new User(name, surname, age, encryptedPassword, password, role);
-        return Optional.of(this.userRepository.save(user));
+        User user = new User(username, this.passwordEncoder.encode(password), name, surname, age, role);
+        return this.userRepository.save(user);
     }
 
     @Override
     public User login(String username, String password) {
-        if (username==null || username.isEmpty() || password==null || password.isEmpty()) {
+
+        if (username == null || username.isEmpty() || password == null || password.isEmpty())
             throw new InvalidArgumentsException();
-        }
-        return userRepository.findByUsernameAndPassword(username, password).orElseThrow(InvalidUserCredentialsException::new);
+
+        return userRepository.findByUsernameAndPassword(username, password)
+                .orElseThrow(InvalidUserCredentialsException::new);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return this.userRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }

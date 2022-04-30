@@ -106,6 +106,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Optional<Book> returnABook(Long id, String username) {
+        Book book = this.bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
+
+        User user = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+
+        book.getUsers().remove(user);
+        book.setCopies(book.getCopies() + 1);
+
+        this.userRepository.save(user);
+
+        return Optional.of(this.bookRepository.save(book));
+    }
+
+    @Override
     public void deleteById(Long id) {
         this.bookRepository.deleteById(id);
     }

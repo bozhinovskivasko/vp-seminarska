@@ -1,6 +1,5 @@
 <div class="container" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <div class="text-center"><h2>Author</h2></div>
-    <div class="text-center"><h3 th:text="${author.fullName}"></h3></div>
+    <div class="text-center"><h4 th:text="${user.username}"></h4></div>
     <br>
     <div>
         <div class="col-12">
@@ -15,18 +14,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="book : ${author.books}">
+                    <tr th:each="book : ${user.books}">
                         <td th:text="${book.title}"></td>
                         <td th:text="${book.details.mainGenre}"></td>
                         <td th:text="${book.details.description}"></td>
                         <td>
                             <div class="col">
-                                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <a th:href="@{'/books/edit/{id}' (id=${book.getId()})}"
-                                       class="btn btn-sm btn-warning">
-                                        <i class="fa fa-trash">Edit</i>
+                                    <a th:href="@{'/books/return-book/{id}' (id=${book.getId()})}"
+                                       class="btn btn-sm btn-info">
+                                        <i class="fa fa-trash">Return book</i>
                                     </a>
-                                </th:block>
                             </div>
                         </td>
                     </tr>
@@ -38,7 +35,7 @@
         <div class="text-center">
             <div class="row">
                 <div class="col-sm-12 col-md-12">
-                    <a type="button" class="btn btn-secondary" href="/authors">Back</a>
+                    <a type="button" class="btn btn-secondary" href="/books">Back</a>
                 </div>
             </div>
         </div>

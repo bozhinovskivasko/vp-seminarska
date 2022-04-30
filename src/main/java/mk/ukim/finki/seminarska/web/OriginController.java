@@ -24,7 +24,7 @@ public class OriginController {
     }
 
     @GetMapping("/add")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addOrigin(Model model) {
         List<Origin> origins = this.originService.findAll();
 
@@ -35,6 +35,7 @@ public class OriginController {
     }
 
     @PostMapping("/add-origin")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String saveOrigin(@RequestParam String country,
                              @RequestParam Continent continent, Model model) {
 

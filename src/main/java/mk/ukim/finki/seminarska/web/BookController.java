@@ -7,10 +7,12 @@ import mk.ukim.finki.seminarska.model.exception.BookNotFoundException;
 import mk.ukim.finki.seminarska.service.AuthorService;
 import mk.ukim.finki.seminarska.service.BookService;
 import mk.ukim.finki.seminarska.service.DetailsService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -38,7 +40,7 @@ public class BookController {
     }
 
     @GetMapping("/add")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addBook(Model model) {
         List<Author> authors = this.authorService.findAll();
         List<Details> details = this.detailsService.findAll();
@@ -51,6 +53,7 @@ public class BookController {
     }
 
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String editProductPage(@PathVariable Long id, Model model) {
         if (this.bookService.findById(id).isPresent()) {
             Book book = this.bookService.findById(id).get();
@@ -69,12 +72,12 @@ public class BookController {
     }
 
     @PostMapping("/add-book")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String saveBook(@RequestParam(required = false) Long id,
                            @RequestParam String title,
                            @RequestParam Long author,
                            @RequestParam Long details,
                            @RequestParam Integer copies) {
-
 
         if (id != null) {
             this.bookService.edit(id, title, author, details, copies);
@@ -82,11 +85,11 @@ public class BookController {
             this.bookService.save(title, author, details, copies);
         }
 
-
         return "redirect:/books";
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteProduct(@PathVariable Long id) {
         this.bookService.deleteById(id);
         return "redirect:/books";
@@ -101,11 +104,19 @@ public class BookController {
         return "";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/rent/{id}")
     public String rentABook(@PathVariable Long id,
-                            @RequestParam String username) {
-        this.bookService.rentABook(id, username);
+                            HttpServletRequest request) {
+        this.bookService.rentABook(id, request.getRemoteUser());
 
-        return "";
+        return "redirect:/books";
+    }
+
+    @GetMapping("/return-book/{id}")
+    public String returnABook(@PathVariable Long id, HttpServletRequest request) {
+        this.bookService.returnABook(id, request.getRemoteUser());
+
+        return "redirect:/user";
     }
 }
+

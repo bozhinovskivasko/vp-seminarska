@@ -1,11 +1,11 @@
 <div class="container" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <div class="row">
         <div class="col-md-5">
-            <form class="form-signin mt-xl-5" method="post" action="/register">
+            <form class="" method="post" action="/register">
                 <h2 class="form-signin-heading">Register</h2>
                 <p>
                     <label for="username" class="sr-only">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username"
+                    <input type="email" id="username" name="username" class="form-control" placeholder="name@example.com"
                            required=""
                            autofocus="">
                 </p>
@@ -15,8 +15,8 @@
                            required="">
                 </p>
                 <p>
-                    <label for="repeatedPassword" class="sr-only">Repeat Password</label>
-                    <input type="password" id="repeatedPassword" name="repeatedPassword" class="form-control"
+                    <label for="repeatPassword" class="sr-only">Repeat Password</label>
+                    <input type="password" id="repeatPassword" name="repeatPassword" class="form-control"
                            placeholder="Repeat Password" required="">
                 </p>
                 <p>
@@ -31,14 +31,19 @@
                            autofocus="">
                 </p>
                 <p>
-                    <label class="sr-only">Role</label>
+                    <label for="age" class="sr-only">Age</label>
+                    <input type="number" id="age" name="age" class="form-control" placeholder="Age"
+                           required=""
+                           autofocus="">
+                </p>
+                <p>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" name="role" type="radio" id="ROLE_ADMIN" value="ROLE_ADMIN">
-                    <label class="form-check-label" for="ROLE_ADMIN">ROLE_ADMIN</label>
+                    <label class="form-check-label" for="ROLE_ADMIN">Admin</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" name="role" type="radio" id="ROLE_USER" value="ROLE_USER">
-                    <label class="form-check-label" for="ROLE_USER">ROLE_USER</label>
+                    <label class="form-check-label" for="ROLE_USER">User</label>
                 </div>
                 </p>
                 <br>
@@ -47,7 +52,7 @@
                     <button class="btn btn-secondary btn-lg" type="submit">Sign up</button>
                 </div>
             </form>
-            <p class="text-center my-2">Already have an account? <a href="">Login here!</a></p>
+            <p class="text-center my-2">Already have an account? <a href="/login">Login here!</a></p>
         </div>
     </div>
 </div>

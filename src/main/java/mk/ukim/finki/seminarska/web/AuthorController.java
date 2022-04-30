@@ -48,7 +48,7 @@ public class AuthorController {
     }
 
     @GetMapping("/add")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addAuthor(Model model) {
         List<Origin> origins = this.originService.findAll();
 
@@ -59,6 +59,7 @@ public class AuthorController {
     }
 
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String editProductPage(@PathVariable Long id, Model model) {
         if (this.authorService.findById(id).isPresent()) {
             Author author = this.authorService.findById(id).get();
@@ -75,6 +76,7 @@ public class AuthorController {
     }
 
     @PostMapping("/add-author")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String saveAuthor(@RequestParam(required = false) Long id,
                              @RequestParam String name,
                              @RequestParam String surname,
